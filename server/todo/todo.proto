@@ -1,0 +1,34 @@
+syntax = "proto3";
+package todo;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./todo";
+
+enum STATUS{
+  DONE = 0;
+  IN_PROGRESS = 1;
+  TODO = 2;
+}
+
+message ListRequest {}
+
+message ToDoList {
+  repeated ToDo todoList = 1;
+}
+
+message ToDo {
+  string goal = 1;
+  STATUS status = 2;
+  google.protobuf.Timestamp dueDate = 3;
+}
+
+message Response {
+  int32 statusCode = 1;
+  string message = 2;
+}
+
+service ToDoService {
+  rpc Create(ToDo) returns (Response) {}
+  rpc List(ListRequest) returns (ToDoList) {}
+}
